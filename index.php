@@ -1,19 +1,17 @@
 <?php
 
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
-use App\Router\Route;
-
+//use App\Router\Route;
 //include 'routes/web.php';
-//include 'App\router\routes.php';
 
-$route = new Route();
+$route = new App\Router\Route;
 
-$route->baseURL('/framework');
+$route->baseURL('/micro-framework-php');
 
-// initRoutes($route, $controller, $action);
-$route->initRoutes('/', 'indexController', 'index');
-$route->initRoutes('/users', 'indexController', 'index');
-$route->initRoutes('/conteudo', 'indexController', 'conteudo');
-$route->initRoutes('/conteudo', 'indexController', 'post');
-$route->initRoutes('/comentaios', 'indexController', 'comments');
+//   method('/route', 'controller', 'action');
+$route->get('/', 'Controller', 'index');
+$route->get('/users', 'Controller', 'show');
+
+$route->post('/comentarios', 'Controller', 'post');
+$route->get('/comentarios', 'Controller', 'comments');

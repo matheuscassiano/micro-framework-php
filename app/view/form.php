@@ -1,4 +1,4 @@
-<form id="contact_form" action="#" method="POST" enctype="multipart/form-data">
+<form id="contact_form" action="http://192.168.0.114/micro-framework-php/conteudo" method="POST" enctype="multipart/form-data">
   <div class="row">
     <label class="required" for="name">Your name:</label><br />
     <input id="name" class="input" name="name" type="text" value="" size="30" /><br />

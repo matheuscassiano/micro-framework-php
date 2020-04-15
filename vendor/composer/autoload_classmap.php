@@ -6,4 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Controller\\indexController' => $baseDir . '/app/controller/indexController.php',
+    'App\\Model\\PDOConnection' => $baseDir . '/app/model/pdo.php',
+    'App\\Router\\Route' => $baseDir . '/app/router/route.php',
 );
