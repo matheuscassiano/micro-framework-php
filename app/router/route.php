@@ -15,77 +15,75 @@ class Route
     
     public function get($route, $controller, $action)
     {
-        $method = $this->method();
+        $method = Route::method();
 
-        if($method == 'GET'){
+        if ($method == 'GET') {
             $this->routes[$this->baseURL.$route] = array ('controller' => $controller, 'action' => $action, 'request' => '');  
-            $this->run($this->getURL());
+            Route::run(Route::getURL());
         }
     }
 
     public function post($route, $controller, $action)
     {
-        $method = $this->method();
+        $method = Route::method();
      
-        if($method == 'POST'){
+        if ($method == 'POST') {
             $req = $_POST;
 
             $this->routes[$this->baseURL.$route] = array ('controller' => $controller, 'action' => $action, 'request' => $req);  
-            $this->run($this->getURL());
+            Route::run(Route::getURL());
         }
-        
     }
 
     public function put($route, $controller, $action)
     {
-        $method = $this->method();
+        $method = Route::method();
      
-        if($method == 'PUT'){
-            /** Transformar em função **/
-            $id = $this->getURL();
-            $baseRoute = $this->baseURL.$route.'/';
-            $id = str_replace($baseRoute, '', $id);
-            /***************************/
+        if ($method == 'PUT') {
+            $id = Route::getId($route);
             // parse_str(file_get_contents('php://input'), $_PUT);
 
-            $req = $_GET;
+            $req = $_GET;// $req = $_PUT;
             $this->routes[$this->baseURL.$route.'/'.$id] = array ('controller' => $controller, 'action' => $action, 'request' => ['id' => $id, 'params' => $req]);  
-            $this->run($this->getURL());
+            Route::run(Route::getURL());
         }
-        
     }
 
     public function delete($route, $controller, $action)
     {
-        $method = $this->method();
+        $method = Route::method();
      
-        if($method == 'DELETE'){
-           /** Transformar em função **/
-           $id = $this->getURL();
-           $baseRoute = $this->baseURL.$route.'/';
-           $id = str_replace($baseRoute, '', $id);
-           /***************************/
+        if ($method == 'DELETE') {
+            $id = Route::getId($route);
             
             $this->routes[$this->baseURL.$route.'/'.$id] = array ('controller' => $controller, 'action' => $action, 'request' => $id);  
-            $this->run($this->getURL());
+            Route::run(Route::getURL());
         }
-        
     }
     
     public function run($url)
     {
-        if (array_key_exists($url, $this->routes)){
+        if (array_key_exists($url, $this->routes)) {
             $class = "\\App\\controller\\" . $this->routes[$url]['controller'];
             $controller = new $class;
             $action = $this->routes[$url]['action'];
             $controller->$action($this->routes[$url]['request']);
             $this->routes = [];
-        } 
+        }
     }
     
     public function getURL()
     {
         return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    }
+    
+    public function getId($route)
+    {
+        $urlId = Route::getURL();
+        $baseRoute = $this->baseURL.$route.'/';
+        $id = str_replace($baseRoute, '', $urlId);
+    
+        return $id;
     }
     
     public function method()

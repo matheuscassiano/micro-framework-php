@@ -4,7 +4,6 @@ namespace App\Model;
 
 class PDOConnection
 {
-    private $pdo;
 
     public function getConnection()
     {
@@ -12,7 +11,6 @@ class PDOConnection
         $user = 'root';
         $pass = 'xa02ib';
         $dbName = 'Testes';
-
 
         try {
             $pdo = new \PDO("mysql:host=$host;dbname=$dbName", $user, $pass);
@@ -27,7 +25,7 @@ class PDOConnection
     public function create($TABLE, $req)
     {
         $conn = PDOConnection::getConnection();
-        $sql = "INSERT INTO ".$TABLE." (name, email, message) VALUES (:name,:email,:msg)";
+        $sql = "INSERT INTO " . $TABLE . " (name, email, message) VALUES (:name, :email, :msg)";
     
         $stmt = $conn->prepare($sql);
         $stmt->bindParam('name', $req['name']);
@@ -44,7 +42,7 @@ class PDOConnection
     public function read($TABLE)
     {
         $conn = PDOConnection::getConnection();
-        $sql = "SELECT * FROM ".$TABLE;
+        $sql = "SELECT * FROM " . $TABLE;
     
         $stmt = $conn->prepare($sql);
         $stmt->execute();
@@ -56,7 +54,7 @@ class PDOConnection
     public function update($TABLE, $ID_COLUMN, $req)
     {
         $conn = PDOConnection::getConnection();
-        $sql = "UPDATE ".$TABLE." SET name = :name, email = :email, message = :msg WHERE ".$ID_COLUMN." = :id";
+        $sql = "UPDATE " . $TABLE . " SET name = :name, email = :email, message = :msg WHERE ".$ID_COLUMN." = :id";
     
         $stmt = $conn->prepare($sql);
         $stmt->bindParam('id', $req['id']);
@@ -74,7 +72,7 @@ class PDOConnection
     public function delete($TABLE, $ID_COLUMN, $id)
     {
         $conn = PDOConnection::getConnection();
-        $sql = "DELETE FROM ".$TABLE." WHERE ".$ID_COLUMN." = :id";
+        $sql = "DELETE FROM ".$TABLE." WHERE " . $ID_COLUMN . " = :id";
     
         $stmt = $conn->prepare($sql);
         $stmt->bindParam('id', $id);
@@ -85,5 +83,4 @@ class PDOConnection
             echo 'Erro ao excluir ' . $id;
         }
     }
-
 }

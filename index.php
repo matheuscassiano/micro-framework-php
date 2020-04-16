@@ -12,8 +12,7 @@ $route->baseURL('/micro-framework-php');
 //   method('/route', 'controller', 'action');
 $route->get('/', 'Controller', 'home');
 
-$route->get('/comentarios', 'Controller', 'index');
 $route->post('/comentarios', 'Controller', 'post');
+$route->get('/comentarios', 'Controller', 'index');
 $route->put('/comentarios', 'Controller', 'put');
 $route->delete('/comentarios', 'Controller', 'delete');
-
