@@ -12,6 +12,8 @@ class PDOConnection
         $user = 'root';
         $pass = 'xa02ib';
         $dbName = 'Testes';
+
+
         try {
             $pdo = new \PDO("mysql:host=$host;dbname=$dbName", $user, $pass);
             $pdo->exec("SET CHARACTER SET utf8");
@@ -49,39 +51,38 @@ class PDOConnection
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         echo json_encode($result);
-        echo ',';
     }
 
-    public function update($TABLE, $req)
+    public function update($TABLE, $ID_COLUMN, $req)
     {
         $conn = PDOConnection::getConnection();
-        $sql = "UPDATE ".$TABLE." SET name = :name, email = :email, message = :msg WHERE id = :id";
+        $sql = "UPDATE ".$TABLE." SET name = :name, email = :email, message = :msg WHERE ".$ID_COLUMN." = :id";
     
         $stmt = $conn->prepare($sql);
         $stmt->bindParam('id', $req['id']);
-        $stmt->bindParam('name', $req['name']);
-        $stmt->bindParam('email', $req['email']);
-        $stmt->bindParam('msg', $req['message']);
+        $stmt->bindParam('name', $req['params']['name']);
+        $stmt->bindParam('email', $req['params']['email']);
+        $stmt->bindParam('msg', $req['params']['message']);
 
         if($stmt->execute()) {
-            echo 'Atualizado com sucesso!';
+            echo $req['id'] . ' atualizado com sucesso!';
         } else {
-            echo 'Erro ao atualizar';
+            echo 'Erro ao atualizar ' . $req['id'];
         }
     }
 
-    public function delete($TABLE, $id)
+    public function delete($TABLE, $ID_COLUMN, $id)
     {
         $conn = PDOConnection::getConnection();
-        $sql = "DELETE FROM ".$TABLE." WHERE id = :id";
+        $sql = "DELETE FROM ".$TABLE." WHERE ".$ID_COLUMN." = :id";
     
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam('name', $id);
+        $stmt->bindParam('id', $id);
 
         if($stmt->execute()) {
-            echo 'Excluido com sucesso!';
+            echo $id . ' excluido com sucesso!';
         } else {
-            echo 'Erro ao excluir';
+            echo 'Erro ao excluir ' . $id;
         }
     }
 

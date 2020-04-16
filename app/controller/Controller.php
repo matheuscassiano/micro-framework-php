@@ -6,36 +6,28 @@ use App\Model\PDOConnection;
 
 class Controller 
 {    
-    public function index()
+    public function home()
     {
-        PDOConnection::read('usuarios');
-        PDOConnection::read('comentarios');
-    }
-
-    public function show()
-    {
-        PDOConnection::read('usuarios');
-    }
-
-    public function comments()
-    {
-        if (empty($_POST)) {
-            PDOConnection::read('comentarios');
-        }
+        echo 'Main Page';
     }
 
     public function post($req)
     {
-        print_r($req);
         PDOConnection::create('comentarios', $req);
     }
 
-    public function removeComment()
+    public function index()
+    {
+        PDOConnection::read('comentarios');
+    }
+
+    public function put($req)
+    {
+        PDOConnection::update('comentarios', 'commentId', $req);
+    }
+
+    public function delete($id)
     {   
-        //print_r($_DELETE);
-        $id = 1;
-        
-        // $id = $req['id'];
-        //PDOConnection::delete('comentarios', $id);
+        PDOConnection::delete('comentarios', 'commentId', $id);
     }
 }
