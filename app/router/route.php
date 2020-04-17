@@ -41,9 +41,10 @@ class Route
      
         if ($method == 'PUT') {
             $id = Route::getId($route);
-            // parse_str(file_get_contents('php://input'), $_PUT);
 
-            $req = $_GET;// $req = $_PUT;
+            parse_str(file_get_contents('php://input'), $_PUT);
+            $req = $_PUT;
+
             $this->routes[$this->baseURL.$route.'/'.$id] = array ('controller' => $controller, 'action' => $action, 'request' => ['id' => $id, 'params' => $req]);  
             Route::run(Route::getURL());
         }
